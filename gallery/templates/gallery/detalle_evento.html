@@ -304,21 +304,33 @@ const viewerImage=document.getElementById("viewerImage");
 
 const downloadBtn=document.getElementById("downloadBtn");
 
-document.querySelectorAll(".photo img").forEach(img=>{
+document.querySelectorAll(".photo img").forEach(img => {
 
-img.onclick=function(){
+    img.onclick = function () {
 
-viewer.style.display="flex";
+        viewer.style.display = "flex";
 
-viewerImage.src=this.dataset.full;
+        viewerImage.src = this.dataset.full;
 
-let url = this.dataset.full;
+        let url = this.dataset.full;
 
-url = url.replace("/upload/", "/upload/fl_attachment/");
+        // Fuerza la descarga en Cloudinary
+        url = url.replace(
+            "/upload/",
+            "/upload/fl_attachment/"
+        );
 
-downloadBtn.href = url;
+        downloadBtn.href = url;
 
-}
+        // Nombre del archivo
+        const nombre = this.dataset.full.split("/").pop();
+
+        downloadBtn.setAttribute(
+            "download",
+            nombre
+        );
+
+    }
 
 });
 
