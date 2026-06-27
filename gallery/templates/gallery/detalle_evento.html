@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>{{ evento.nombre }}</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+
+background:#0b0b0b;
+color:white;
+font-family:Arial,sans-serif;
+
+}
+
+header{
+
+background:#151515;
+padding:25px;
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+flex-wrap:wrap;
+
+border-bottom:1px solid #2d2d2d;
+
+}
+
+h1{
+
+font-size:34px;
+
+}
+
+a{
+
+color:white;
+text-decoration:none;
+
+}
+
+.back{
+
+background:#7c3aed;
+
+padding:12px 20px;
+
+border-radius:10px;
+
+}
+
+.container{
+
+max-width:1500px;
+
+margin:auto;
+
+padding:40px 20px;
+
+}
+
+.gallery{
+
+display:grid;
+
+grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+
+gap:20px;
+
+}
+
+.photo{
+
+cursor:pointer;
+
+overflow:hidden;
+
+border-radius:16px;
+
+background:#202020;
+
+transition:.25s;
+
+}
+
+.photo:hover{
+
+transform:scale(1.03);
+
+}
+
+.photo img{
+
+width:100%;
+
+height:280px;
+
+object-fit:cover;
+
+display:block;
+
+}
+
+#viewer{
+
+position:fixed;
+
+inset:0;
+
+background:rgba(0,0,0,.95);
+
+display:none;
+
+justify-content:center;
+
+align-items:center;
+
+flex-direction:column;
+
+padding:30px;
+
+z-index:9999;
+
+}
+
+#viewer img{
+
+max-width:95%;
+
+max-height:80vh;
+
+border-radius:15px;
+
+}
+
+.buttons{
+
+margin-top:25px;
+
+display:flex;
+
+gap:15px;
+
+flex-wrap:wrap;
+
+}
+
+.buttons a,
+.buttons button{
+
+padding:15px 24px;
+
+border:none;
+
+border-radius:10px;
+
+font-size:16px;
+
+cursor:pointer;
+
+}
+
+.download{
+
+background:#7c3aed;
+
+color:white;
+
+text-decoration:none;
+
+}
+
+.close{
+
+background:#333;
+
+color:white;
+
+}
+
+.empty{
+
+text-align:center;
+
+padding:80px;
+
+color:#888;
+
+font-size:22px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<h1>
+
+{{ evento.nombre }}
+
+</h1>
+
+<a
+href="{% url 'inicio' %}"
+class="back">
+
+← Volver
+
+</a>
+
+</header>
+
+<div class="container">
+
+{% if evento.fotografias.count %}
+
+<div class="gallery">
+
+{% for foto in evento.fotografias.all %}
+
+<div
+class="photo">
+
+<img
+
+src="{{ foto.imagen.url }}"
+
+data-full="{{ foto.imagen.url }}"
+
+alt="">
+
+</div>
+
+{% endfor %}
+
+</div>
+
+{% else %}
+
+<div class="empty">
+
+Este evento todavía no tiene fotografías.
+
+</div>
+
+{% endif %}
+
+</div>
+
+<div id="viewer">
+
+<img id="viewerImage">
+
+<div class="buttons">
+
+<a
+
+id="downloadBtn"
+
+download
+
+class="download">
+
+Descargar
+
+</a>
+
+<button
+
+class="close"
+
+onclick="closeViewer()">
+
+Cerrar
+
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+const viewer=document.getElementById("viewer");
+
+const viewerImage=document.getElementById("viewerImage");
+
+const downloadBtn=document.getElementById("downloadBtn");
+
+document.querySelectorAll(".photo img").forEach(img=>{
+
+img.onclick=function(){
+
+viewer.style.display="flex";
+
+viewerImage.src=this.dataset.full;
+
+downloadBtn.href=this.dataset.full;
+
+}
+
+});
+
+function closeViewer(){
+
+viewer.style.display="none";
+
+}
+
+viewer.onclick=function(e){
+
+if(e.target===viewer){
+
+closeViewer();
+
+}
+
+}
+
+document.addEventListener("keydown",function(e){
+
+if(e.key==="Escape"){
+
+closeViewer();
+
+}
+
+});
+
+</script>
+
+</body>
+
+</html>

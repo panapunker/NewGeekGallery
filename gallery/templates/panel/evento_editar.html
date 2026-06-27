@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Editar evento | NewGeek Gallery</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+:root{
+
+--bg:#0b0b0b;
+--card:#181818;
+--border:#303030;
+
+--primary:#7c3aed;
+--primaryHover:#6d28d9;
+
+--danger:#dc2626;
+
+--text:#ffffff;
+--muted:#9ca3af;
+
+}
+
+body{
+
+background:var(--bg);
+
+font-family:Arial,sans-serif;
+
+color:white;
+
+min-height:100vh;
+
+}
+
+header{
+
+height:80px;
+
+background:#121212;
+
+border-bottom:1px solid var(--border);
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+padding:0 40px;
+
+}
+
+.logo{
+
+font-size:28px;
+
+font-weight:bold;
+
+}
+
+.back{
+
+background:#3a3a3a;
+
+color:white;
+
+text-decoration:none;
+
+padding:12px 20px;
+
+border-radius:10px;
+
+}
+
+.container{
+
+max-width:1100px;
+
+margin:40px auto;
+
+padding:0 20px;
+
+}
+
+.card{
+
+background:var(--card);
+
+border:1px solid var(--border);
+
+border-radius:24px;
+
+padding:40px;
+
+}
+
+h1{
+
+font-size:34px;
+
+margin-bottom:10px;
+
+}
+
+.subtitle{
+
+color:var(--muted);
+
+margin-bottom:35px;
+
+}
+
+.grid{
+
+display:grid;
+
+grid-template-columns:1fr 1fr;
+
+gap:40px;
+
+}
+
+.preview{
+
+background:#111;
+
+border:1px solid var(--border);
+
+border-radius:20px;
+
+padding:20px;
+
+}
+
+.preview img{
+
+width:100%;
+
+border-radius:15px;
+
+display:block;
+
+}
+
+.stats{
+
+margin-top:20px;
+
+display:flex;
+
+flex-direction:column;
+
+gap:12px;
+
+}
+
+.stat{
+
+background:#202020;
+
+padding:14px;
+
+border-radius:10px;
+
+}
+
+label{
+
+display:block;
+
+margin-bottom:10px;
+
+font-weight:bold;
+
+}
+
+input[type=text]{
+
+width:100%;
+
+padding:16px;
+
+border-radius:12px;
+
+border:1px solid var(--border);
+
+background:#101010;
+
+color:white;
+
+margin-bottom:25px;
+
+outline:none;
+
+}
+
+input[type=file]{
+
+width:100%;
+
+padding:14px;
+
+background:#101010;
+
+border:1px solid var(--border);
+
+border-radius:12px;
+
+color:white;
+
+margin-bottom:30px;
+
+}
+
+.buttons{
+
+display:flex;
+
+flex-wrap:wrap;
+
+gap:15px;
+
+margin-top:20px;
+
+}
+
+.btn{
+
+padding:15px 24px;
+
+border:none;
+
+border-radius:12px;
+
+font-size:15px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+text-decoration:none;
+
+display:inline-flex;
+
+align-items:center;
+
+justify-content:center;
+
+}
+
+.save{
+
+background:var(--primary);
+
+color:white;
+
+}
+
+.save:hover{
+
+background:var(--primaryHover);
+
+}
+
+.photos{
+
+background:#2563eb;
+
+color:white;
+
+}
+
+.photos:hover{
+
+background:#1d4ed8;
+
+}
+
+.delete{
+
+background:var(--danger);
+
+color:white;
+
+}
+
+.delete:hover{
+
+background:#b91c1c;
+
+}
+
+@media(max-width:900px){
+
+.grid{
+
+grid-template-columns:1fr;
+
+}
+
+header{
+
+padding:20px;
+
+height:auto;
+
+flex-direction:column;
+
+gap:20px;
+
+}
+
+.logo{
+
+font-size:24px;
+
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+
+NewGeek Gallery
+
+</div>
+
+<a
+href="{% url 'dashboard' %}"
+class="back">
+
+← Dashboard
+
+</a>
+
+</header>
+
+<div class="container">
+
+<div class="card">
+
+<h1>
+
+Editar evento
+
+</h1>
+
+<p class="subtitle">
+
+Actualiza la información del evento.
+
+</p>
+
+<form
+method="post"
+enctype="multipart/form-data">
+
+{% csrf_token %}
+
+<div class="grid">
+
+<div>
+
+<label>
+
+Nombre del evento
+
+</label>
+
+<input
+type="text"
+name="nombre"
+value="{{ evento.nombre }}"
+required>
+
+<label>
+
+Cambiar portada
+
+</label>
+
+<input
+type="file"
+name="portada"
+accept="image/*">
+</div>
+
+<div>
+
+<div class="preview">
+
+<img
+    src="{{ evento.portada.url }}"
+    id="previewImage"
+    alt="{{ evento.nombre }}">
+
+<div class="stats">
+
+<div class="stat">
+
+<strong>Fotografías:</strong>
+
+{{ evento.fotografias.count }}
+
+</div>
+
+<div class="stat">
+
+<strong>Creado:</strong>
+
+{{ evento.creado|date:"d/m/Y H:i" }}
+
+</div>
+
+<div class="stat">
+
+<strong>URL pública:</strong>
+
+<br><br>
+
+<a
+href="{% url 'detalle_evento' evento.slug %}"
+target="_blank"
+style="color:#8b5cf6;text-decoration:none;word-break:break-all;">
+
+{{ request.scheme }}://{{ request.get_host }}{% url 'detalle_evento' evento.slug %}
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="buttons">
+
+<button
+type="submit"
+class="btn save">
+
+Guardar cambios
+
+</button>
+
+<a
+href="{% url 'dashboard' %}"
+class="btn">
+
+Cancelar
+
+</a>
+
+<a
+href="{% url 'evento_fotos' evento.id %}"
+class="btn photos">
+
+Administrar fotografías
+
+</a>
+
+<a
+href="{% url 'eliminar_evento' evento.id %}"
+class="btn delete">
+
+Eliminar evento
+
+</a>
+
+</div>
+
+</form>
+
+</div>
+
+</div>
+
+<script>
+
+const input=document.querySelector("input[name='portada']");
+
+const preview=document.getElementById("previewImage");
+
+input.addEventListener("change",function(){
+
+    if(this.files.length===0){
+
+        return;
+
+    }
+
+    const reader=new FileReader();
+
+    reader.onload=function(e){
+
+        preview.src=e.target.result;
+
+    }
+
+    reader.readAsDataURL(this.files[0]);
+
+});
+
+</script>
+
+</body>
+
+</html>

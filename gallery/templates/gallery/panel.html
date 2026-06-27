@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1">
+
+<title>Panel - NewGeek Gallery</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+
+background:#0b0b0b;
+
+color:white;
+
+padding:60px;
+
+}
+
+.container{
+
+max-width:900px;
+
+margin:auto;
+
+background:#181818;
+
+padding:40px;
+
+border-radius:20px;
+
+}
+
+h1{
+
+margin-bottom:40px;
+
+}
+
+label{
+
+display:block;
+
+margin-top:25px;
+
+margin-bottom:8px;
+
+font-weight:bold;
+
+}
+
+input{
+
+width:100%;
+
+padding:14px;
+
+border:none;
+
+border-radius:10px;
+
+background:#262626;
+
+color:white;
+
+}
+
+input[type=file]{
+
+padding:25px;
+
+border:2px dashed #555;
+
+background:#111;
+
+cursor:pointer;
+
+}
+
+button{
+
+margin-top:40px;
+
+width:100%;
+
+padding:18px;
+
+background:#7c3aed;
+
+border:none;
+
+border-radius:12px;
+
+color:white;
+
+font-size:18px;
+
+cursor:pointer;
+
+}
+
+button:hover{
+
+background:#6d28d9;
+
+}
+
+.info{
+
+margin-top:20px;
+
+color:#999;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>
+
+Crear nuevo evento
+
+</h1>
+
+<form method="post" enctype="multipart/form-data">
+
+    {% csrf_token %}
+
+    <label>Nombre del evento</label>
+
+    <input
+        type="text"
+        name="nombre"
+        required
+    >
+
+    <label>Portada</label>
+
+    <input
+        type="file"
+        name="portada"
+        accept="image/*"
+        required
+    >
+
+    <label>Fotografías</label>
+
+    <input
+        type="file"
+        name="fotografias"
+        accept="image/*"
+        multiple
+        required
+    >
+
+    <button type="submit">
+
+        Guardar evento
+
+    </button>
+<p class="info">
+
+Puedes seleccionar 100, 300 o más fotografías al mismo tiempo.
+
+</p>
+</form>
+
+<div class="info">
+
+Puedes seleccionar cientos de fotografías al mismo tiempo.
+
+</div>
+
+</div>
+
+</body>
+
+</html>
