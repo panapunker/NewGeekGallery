@@ -1,0 +1,31 @@
+services:
+  - type: web
+    name: newgeek-gallery
+    runtime: python
+    plan: free
+
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn config.wsgi:application"
+
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.9"
+
+      - key: DEBUG
+        value: "False"
+
+      - key: SECRET_KEY
+        generateValue: true
+
+      - key: WEB_CONCURRENCY
+        value: "2"
+
+      - key: DATABASE_URL
+        fromDatabase:
+          name: newgeek-db
+          property: connectionString
+
+databases:
+  - name: newgeek-db
+    databaseName: newgeekgallery
+    plan: free
