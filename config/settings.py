@@ -124,6 +124,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+import os
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'dzfxpokhp',
     'API_KEY': '774387275943588',
