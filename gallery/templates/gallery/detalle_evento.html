@@ -312,7 +312,11 @@ viewer.style.display="flex";
 
 viewerImage.src=this.dataset.full;
 
-downloadBtn.href=this.dataset.full;
+let url = this.dataset.full;
+
+url = url.replace("/upload/", "/upload/fl_attachment/");
+
+downloadBtn.href = url;
 
 }
 
